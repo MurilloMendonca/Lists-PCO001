@@ -71,11 +71,48 @@ bool buscaBin(ListaSequencial L, char chave)
     }
 }
 
+bool buscaBin(ListaSequencial L, char chave, int& pos)
+{
+    if(L.Fim<0)
+        return false;
+    int inicio=0, fim=L.Fim, m;
+    while(true){
+        m = (inicio+fim)/2;
+        if(inicio==fim && L.Dados[m].Chave!=chave)
+            return false;
+        if(chave>L.Dados[m].Chave)
+            inicio=m+1;
+        else if(chave<L.Dados[m].Chave)
+            fim = m;
+        else{
+            pos = m;
+            return true;
+        }
+    }
+}
+
 
 void mostraLista(ListaSequencial L)
 {
     for(int i=0;i<=L.Fim;i++)
         printf("\nL(%i) = %i ; %c", i, L.Dados[i].Valor, L.Dados[i].Chave);
+}
+
+bool alteraNo(ListaSequencial& L, No& N){
+    int pos;
+    if(!buscaBin(L,N.Chave, pos))
+        return false;
+    int aux = N.Valor;
+    N= L.Dados[pos];
+    L.Dados[pos].Valor = aux;
+    return true;
+
+}
+int consultaNo(ListaSequencial L, char chave){
+    int pos;
+    if(!buscaBin(L,chave, pos))
+        return -1;
+    return L.Dados[pos].Valor;
 }
 int main()
 {
@@ -93,5 +130,8 @@ int main()
         printf("\nAchei F!!");
     else
         printf("\nNao achei F");
+        no1.Valor=7;
+    if(alteraNo(L, no1))
+        printf("\nL(%c) foi alterado de %i para %i", no1.Chave, no1.Valor ,consultaNo(L, no1.Chave) );
     return 0;
 }

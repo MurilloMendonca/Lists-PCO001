@@ -89,10 +89,21 @@ void mostraLista(ListaEstaticaEncadeada L){
     }
 }
 
+int contaNos(ListaEstaticaEncadeada L){
+    int prox = L.Com, cont=0;
+    while(prox!=-1)
+    {
+        cont++;
+        prox=L.Dados[prox].Lig;
+    }
+    return cont;
+}
+
 int main(){
     ListaEstaticaEncadeada L;
     IniciaLista(L);
     InsereLista(L,'F');InsereLista(L,'A');InsereLista(L,'B');
+    printf("\nA Lista tem %i elementos.", contaNos(L));
     mostraLista(L);
     return 0;
 }

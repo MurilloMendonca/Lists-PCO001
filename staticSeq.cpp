@@ -130,7 +130,7 @@ int main()
         printf("\nAchei F!!");
     else
         printf("\nNao achei F");
-        no1.Valor=7;
+    no1.Valor=7;
     if(alteraNo(L, no1))
         printf("\nL(%c) foi alterado de %i para %i", no1.Chave, no1.Valor ,consultaNo(L, no1.Chave) );
     return 0;

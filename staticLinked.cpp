@@ -99,11 +99,21 @@ int contaNos(ListaEstaticaEncadeada L){
     return cont;
 }
 
+No ultimo(ListaEstaticaEncadeada L)
+{
+    int prox = L.Com, cont=0;
+    while(true)
+    {
+        if(L.Dados[prox].Lig==-1) return L.Dados[prox];
+        prox=L.Dados[prox].Lig;
+    }
+}
 int main(){
     ListaEstaticaEncadeada L;
     IniciaLista(L);
     InsereLista(L,'F');InsereLista(L,'A');InsereLista(L,'B');
-    printf("\nA Lista tem %i elementos.", contaNos(L));
+    printf("A Lista tem %i elementos.", contaNos(L));
+    printf("\nO ultimo elemento eh: %c", ultimo(L).Info);
     mostraLista(L);
     return 0;
 }

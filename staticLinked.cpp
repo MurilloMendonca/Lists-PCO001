@@ -108,12 +108,28 @@ No ultimo(ListaEstaticaEncadeada L)
         prox=L.Dados[prox].Lig;
     }
 }
+
+void inverte(ListaEstaticaEncadeada &L){
+    int atual, prox=L.Com, ant=-1;
+    while(prox!=-1)
+    {
+        atual = prox;
+        prox = L.Dados[atual].Lig;
+        L.Dados[atual].Lig = ant;
+        ant = atual;
+    }
+    L.Com=ant;
+}
+
 int main(){
     ListaEstaticaEncadeada L;
     IniciaLista(L);
     InsereLista(L,'F');InsereLista(L,'A');InsereLista(L,'B');
     printf("A Lista tem %i elementos.", contaNos(L));
     printf("\nO ultimo elemento eh: %c", ultimo(L).Info);
+    mostraLista(L);
+    inverte(L);
+    printf("\n\nLista Invertida:");
     mostraLista(L);
     return 0;
 }

@@ -121,6 +121,22 @@ void inverte(ListaEstaticaEncadeada &L){
     L.Com=ant;
 }
 
+bool compara(ListaEstaticaEncadeada L1, ListaEstaticaEncadeada L2)
+{
+    if(contaNos(L1)!=contaNos(L2))
+        return false;
+    ListaEstaticaEncadeada L2inv = L2; inverte(L2inv);
+    int prox1=L1.Com, prox2 = L2.Com, prox2inv = L2inv.Com;
+    while(prox1!=-1)
+    {
+        if((L1.Dados[prox1].Info!=L2.Dados[prox2].Info)&&(L1.Dados[prox1].Info!=L2inv.Dados[prox2inv].Info))
+            return false;
+        prox1 = L1.Dados[prox1].Lig;
+        prox2 = L2.Dados[prox2].Lig;
+        prox2inv=L2inv.Dados[prox2inv].Lig;
+    }
+    return true;
+}
 int main(){
     ListaEstaticaEncadeada L;
     IniciaLista(L);
@@ -128,8 +144,12 @@ int main(){
     printf("A Lista tem %i elementos.", contaNos(L));
     printf("\nO ultimo elemento eh: %c", ultimo(L).Info);
     mostraLista(L);
-    inverte(L);
+    ListaEstaticaEncadeada L2=L;
+    inverte(L2);
     printf("\n\nLista Invertida:");
-    mostraLista(L);
+    mostraLista(L2);
+
+    if(compara(L,L2)) printf("\n\nAs duas listas tem o mesmo conteudo");
+    else printf("\nAs listas nao tem o mesmo conteudo");
     return 0;
 }

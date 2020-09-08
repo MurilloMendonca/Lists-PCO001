@@ -53,21 +53,23 @@ void iniciaLista(ListaSequencial& L)
 {
     L.Fim=-1;
 }
-bool buscaBin(ListaSequencial L, char chave)
+bool buscaBin(ListaSequencial L, No& N)
 {
     if(L.Fim<0)
         return false;
     int inicio=0, fim=L.Fim, m;
     while(true){
         m = (inicio+fim)/2;
-        if(inicio==fim && L.Dados[m].Chave!=chave)
+        if(inicio==fim && L.Dados[m].Chave!=N.Chave)
             return false;
-        if(chave>L.Dados[m].Chave)
+        if(N.Chave>L.Dados[m].Chave)
             inicio=m+1;
-        else if(chave<L.Dados[m].Chave)
+        else if(N.Chave<L.Dados[m].Chave)
             fim = m;
-        else
+        else{
+            N = L.Dados[m];
             return true;
+        }
     }
 }
 
@@ -95,7 +97,7 @@ bool buscaBin(ListaSequencial L, char chave, int& pos)
 void mostraLista(ListaSequencial L)
 {
     for(int i=0;i<=L.Fim;i++)
-        printf("\nL(%i) = %i ; %c", i, L.Dados[i].Valor, L.Dados[i].Chave);
+        printf("\n[%i] L(%c) = %i ;", i, L.Dados[i].Chave, L.Dados[i].Valor);
 }
 
 bool alteraNo(ListaSequencial& L, No& N){
@@ -108,11 +110,16 @@ bool alteraNo(ListaSequencial& L, No& N){
     return true;
 
 }
-int consultaNo(ListaSequencial L, char chave){
-    int pos;
-    if(!buscaBin(L,chave, pos))
-        return -1;
-    return L.Dados[pos].Valor;
+bool consultaNo(ListaSequencial L, No& N){
+    for(int i=0;i<=L.Fim;i++)
+    {
+        if(L.Dados[i].Chave==N.Chave)
+        {
+            N.Valor = L.Dados[i].Valor;
+            return true;
+        }
+    }
+    return false;
 }
 int main()
 {
@@ -126,12 +133,17 @@ int main()
     InsereListaSeq(L,no2);
     InsereListaSeq(L,no3);
     mostraLista(L);
-    if(buscaBin(L,'F'))
+    if(buscaBin(L,no1))
         printf("\nAchei F!!");
     else
         printf("\nNao achei F");
     no1.Valor=7;
-    if(alteraNo(L, no1))
-        printf("\nL(%c) foi alterado de %i para %i", no1.Chave, no1.Valor ,consultaNo(L, no1.Chave) );
+    if(alteraNo(L, no1)){
+        No newN;
+        newN.Chave = no1.Chave;
+        consultaNo(L,newN);
+        printf("\n O valor de L(%c) foi alterado de %i para %i", no1.Chave, no1.Valor, newN.Valor);
+    }
+    mostraLista(L);
     return 0;
 }

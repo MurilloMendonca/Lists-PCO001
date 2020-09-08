@@ -53,7 +53,9 @@ void iniciaLista(ListaSequencial& L)
 {
     L.Fim=-1;
 }
-bool buscaBin(ListaSequencial L, No& N)
+
+
+bool buscaBin(ListaSequencial L, No& N) //Busca Binaria Iterativa
 {
     if(L.Fim<0)
         return false;
@@ -73,27 +75,6 @@ bool buscaBin(ListaSequencial L, No& N)
     }
 }
 
-bool buscaBin(ListaSequencial L, char chave, int& pos)
-{
-    if(L.Fim<0)
-        return false;
-    int inicio=0, fim=L.Fim, m;
-    while(true){
-        m = (inicio+fim)/2;
-        if(inicio==fim && L.Dados[m].Chave!=chave)
-            return false;
-        if(chave>L.Dados[m].Chave)
-            inicio=m+1;
-        else if(chave<L.Dados[m].Chave)
-            fim = m;
-        else{
-            pos = m;
-            return true;
-        }
-    }
-}
-
-
 void mostraLista(ListaSequencial L)
 {
     for(int i=0;i<=L.Fim;i++)
@@ -101,17 +82,21 @@ void mostraLista(ListaSequencial L)
 }
 
 bool alteraNo(ListaSequencial& L, No& N){
-    int pos;
-    if(!buscaBin(L,N.Chave, pos))
-        return false;
-    int aux = N.Valor;
-    N= L.Dados[pos];
-    L.Dados[pos].Valor = aux;
-    return true;
+    for(int i=0;i<=L.Fim && L.Dados[i].Chave<=N.Chave;i++)
+    {
+        if(L.Dados[i].Chave==N.Chave)
+        {
+           int aux = N.Valor;
+            N = L.Dados[i];
+            L.Dados[i].Valor = aux;
+            return true;
+        }
+    }
+    return false;
 
 }
 bool consultaNo(ListaSequencial L, No& N){
-    for(int i=0;i<=L.Fim;i++)
+    for(int i=0;i<=L.Fim && L.Dados[i].Chave<=N.Chave;i++)
     {
         if(L.Dados[i].Chave==N.Chave)
         {
